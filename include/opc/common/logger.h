@@ -26,9 +26,21 @@ namespace Logger {
 
 }
 
+#ifndef LOG_TRACE
 #define LOG_TRACE(__logger__, ...) { if (__logger__ && __logger__->should_log(spdlog::level::trace)) { __logger__->trace(__VA_ARGS__); }}
+#endif
+#ifndef LOG_DEBUG
 #define LOG_DEBUG(__logger__, ...) { if (__logger__ && __logger__->should_log(spdlog::level::debug)) { __logger__->debug(__VA_ARGS__); }}
+#endif
+#ifndef LOG_INFO
 #define LOG_INFO(__logger__, ...) { if (__logger__ && __logger__->should_log(spdlog::level::info)) { __logger__->info(__VA_ARGS__); }}
+#endif
+#ifndef LOG_WARN
 #define LOG_WARN(__logger__, ...) { if (__logger__ && __logger__->should_log(spdlog::level::warn)) { __logger__->warn(__VA_ARGS__); }}
+#endif
+#ifndef LOG_ERROR
 #define LOG_ERROR(__logger__, ...) { if (__logger__ && __logger__->should_log(spdlog::level::err)) { __logger__->error(__VA_ARGS__); }}
+#endif
+#ifndef LOG_CRITICAL
 #define LOG_CRITICAL(__logger__, ...) { if (__logger__ && __logger__->should_log(spdlog::level::critical)) { __logger__->critical(__VA_ARGS__); }}
+#endif
