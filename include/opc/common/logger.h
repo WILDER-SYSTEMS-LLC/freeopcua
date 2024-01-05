@@ -22,7 +22,7 @@ namespace Common
 
 namespace Logger {
   DEFINE_CLASS_POINTERS(spdlog::logger)
-};
+}
 
 }
 
