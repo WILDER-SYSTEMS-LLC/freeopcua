@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 2.8)
+cmake_minimum_required(VERSION 3.5)
 
 #It seems Cmake does not set default bild type so we force it
 if( NOT CMAKE_BUILD_TYPE )
@@ -13,7 +13,7 @@ option(BUILD_SERVER "Build Server" ON)
 option(SSL_SUPPORT_MBEDTLS "Support rsa-oaep password encryption using mbedtls library " ON)
 
 option(BUILD_PYTHON "Build Python bindings" ON)
-option(BUILD_TESTING "Build and run tests" OFF)
+option(BUILD_TESTING_OPCUA "Build and run tests" OFF)
 OPTION(BUILD_SHARED_LIBS "Build shared libraries." ON)
 
 IF (NOT DEFINED CMAKE_INSTALL_LIBDIR)
@@ -152,9 +152,9 @@ if (SSL_SUPPORT_MBEDTLS)
 endif (SSL_SUPPORT_MBEDTLS)
 
 SET(TEST_INCLUDES, "")
-IF(BUILD_TESTING)
+IF(BUILD_TESTING_OPCUA)
     SET(TEST_INCLUDES ${PROJECT_SOURCE_DIR}/tests/gtest/include ${PROJECT_SOURCE_DIR}/tests/gmock/include)
-ENDIF(BUILD_TESTING)
+ENDIF(BUILD_TESTING_OPCUA)
 
 include_directories(
     ${PROJECT_SOURCE_DIR}/include
@@ -162,11 +162,11 @@ include_directories(
     ${ADDITIONAL_INCLUDES}
     )
 
-if(BUILD_TESTING)
+if(BUILD_TESTING_OPCUA)
     set(TEST_LIBS gtest_main)
     enable_testing()
     add_subdirectory(tests/gtest)
-endif(BUILD_TESTING)
+endif(BUILD_TESTING_OPCUA)
 
 install(DIRECTORY include/opc DESTINATION include)
 
@@ -226,7 +226,7 @@ if (NOT WIN32)
     target_link_libraries(opcuaprotocol ${Boost_LIBRARIES})
 endif ()
 
-if (BUILD_TESTING)
+if (BUILD_TESTING_OPCUA)
     add_executable(test_opcuaprotocol
         tests/protocol/binary_deserialize.cpp
         tests/protocol/binary_node_management.cpp
@@ -305,7 +305,7 @@ install(TARGETS opcuacore EXPORT FreeOpcUa
 
 generate_pkgconfig(opcuacore)
 
-if (BUILD_TESTING)
+if (BUILD_TESTING_OPCUA)
     add_library(test_dynamic_addon MODULE
         tests/core/test_dynamic_addon.cpp
         tests/core/test_dynamic_addon.h
@@ -339,7 +339,7 @@ if (BUILD_TESTING)
 
     add_test(NAME opcuacore COMMAND test_opcuacore)
 
-endif(BUILD_TESTING)
+endif(BUILD_TESTING_OPCUA)
 
 
 
@@ -471,7 +471,7 @@ if(BUILD_SERVER)
     #  src/server/xml_address_space_loader.h
     #  src/server/xml_processor.h
 
-    if (BUILD_TESTING)
+    if (BUILD_TESTING_OPCUA)
         add_executable(test_opcuaserver
             src/server/opcua_protocol_addon.cpp
             src/serverapp/server_options.cpp
@@ -519,7 +519,7 @@ if(BUILD_SERVER)
 
         add_test(NAME opcuaserverapp COMMAND test_opcuaserver)
 
-    endif (BUILD_TESTING)
+    endif (BUILD_TESTING_OPCUA)
 
 
 ############################################################################
